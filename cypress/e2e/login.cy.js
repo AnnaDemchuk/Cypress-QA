@@ -2,7 +2,7 @@
 describe('Test login saucedemo.com', () => {
 
 beforeEach(() => {
-    cy.visit('/')
+    cy.visit('https://www.saucedemo.com/')
 })
 
     it('should login with valid credentials' , () => {
