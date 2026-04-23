@@ -1,6 +1,7 @@
-import LoginPage from "../../pages/LoginPage";
-import { users } from "../../fixtures/users";
+import LoginPage from "../../pages/SauseDemo/LoginPage";
+import { users } from "../../fixtures/sausedemo/users";
 
+//test with POM and fixture data (ts file)
 describe('Login Tests', () => {
     const loginPage = new LoginPage();
     beforeEach(() => {

@@ -1,6 +1,7 @@
 
 describe('Test login saucedemo.com', () => {
 
+    //without pom, without fixture
 beforeEach(() => {
     cy.visit('https://www.saucedemo.com/')
 })

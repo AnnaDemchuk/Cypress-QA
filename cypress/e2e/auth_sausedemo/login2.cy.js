@@ -1,5 +1,6 @@
-import LoginPage from "../../pages/LoginPage";
+import LoginPage from "../../pages/SauseDemo/LoginPage";
 
+//test with POM and fixture data (json file)
 let testData;
 
 describe('Login Tests', () => {
