@@ -29,6 +29,7 @@ describe('buttons on qauto.forstudy.space ', () => {
 
         cy.contains('a', 'ithillel.ua').should('be.visible').should('have.attr', 'href').and('not.be.empty')
         cy.contains('a', 'support@ithillel.ua').should('have.attr', 'href').and('not.be.empty')
+        //cy.contains('a', 'support@ithillel.ua')  .should('be.visible')  .and('have.attr', 'href', 'mailto:support@ithillel.ua')
     }
     );
     

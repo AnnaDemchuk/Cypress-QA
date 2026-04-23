@@ -1,0 +1,13 @@
+{
+  "baseUrl": "https://unsplash.com",
+  "credentials": {
+    "valid": {
+      "email": "valid@example.com",
+      "password": "validpassword"
+    },
+    "invalid": {
+      "email": "wer@gmail.com",
+      "password": "123456"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+import LoginPage from "../../pages/LoginPage";
+
+let testData;
+
+describe('Login Tests', () => {
+    const loginPage = new LoginPage();
+    beforeEach(() => {
+        loginPage.visit();
+        loginPage.verifyOpenloginpage();
+        cy.fixture('users').then((data) => {
+            testData = data;
+        });
+    });
+
+   it('should login with valid credentials1', () => {
+        cy.login(testData.standard_user.username, testData.standard_user.password);
+        cy.url().should('include', '/inventory.html');
+    });
+
+    it('should login with valid credentials2', () => {
+        loginPage.login(testData.standard_user.username, testData.standard_user.password);
+        cy.url().should('include', '/inventory.html');
+    });
+});
