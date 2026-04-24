@@ -21,7 +21,7 @@ describe('modal registration', () => {
             modalRegistration.verifyBorderColor(modalRegistration.selectors.nameInput);
         });
 
-        it('impossible login with empty name', () => {
+        it('impossible registration with empty name', () => {
             modalRegistration.clickOnField(modalRegistration.selectors.nameInput);
 
             modalRegistration.fillRegistrationForm(
@@ -34,7 +34,7 @@ describe('modal registration', () => {
             modalRegistration.verifyErrorText(modalRegistration.selectors.nameErrorMessage, testData.emptyData.invalidName);
         });
 
-        it('impossible login with invalid name', () => {
+        it('impossible registration with invalid name', () => {
             modalRegistration.fillRegistrationForm(
                 testData.wrongData.name,
                 testData.validData.lastName,
@@ -45,7 +45,7 @@ describe('modal registration', () => {
             modalRegistration.verifyErrorText(modalRegistration.selectors.nameErrorMessage, testData.wrongData.invalidName);
         });
 
-        it('impossible login with short name', () => {
+        it('impossible registration with short name', () => {
             modalRegistration.fillRegistrationForm(
                 testData.shortData.name,
                 testData.validData.lastName,
@@ -56,7 +56,7 @@ describe('modal registration', () => {
             modalRegistration.verifyErrorText(modalRegistration.selectors.nameErrorMessage, testData.shortData.invalidName);
         });
 
-        it('impossible login with long name', () => {
+        it('impossible registration with long name', () => {
             modalRegistration.fillRegistrationForm(
                 testData.longData.name,
                 testData.validData.lastName,
@@ -74,7 +74,7 @@ describe('modal registration', () => {
         });
 
 
-        it('impossible login with empty password', () => {
+        it('impossible registration with empty password', () => {
             modalRegistration.clickOnField(modalRegistration.selectors.passwordInput);
 
             modalRegistration.fillRegistrationForm(
@@ -88,7 +88,7 @@ describe('modal registration', () => {
             modalRegistration.verifyErrorText(modalRegistration.selectors.passwordErrorMessage, testData.emptyData.invalidPassword);
         });
 
-        it('impossible login with invalid password', () => {
+        it('impossible registration with invalid password', () => {
             modalRegistration.fillRegistrationForm(
                 testData.validData.name,
                 testData.validData.lastName,
@@ -99,7 +99,7 @@ describe('modal registration', () => {
             modalRegistration.verifyErrorText(modalRegistration.selectors.passwordErrorMessage, testData.wrongData.invalidPassword);
         });
 
-        it('impossible login with short password', () => {
+        it('impossible registration with short password', () => {
             modalRegistration.fillRegistrationForm(
                 testData.validData.name,
                 testData.validData.lastName,
@@ -110,7 +110,7 @@ describe('modal registration', () => {
             modalRegistration.verifyErrorText(modalRegistration.selectors.passwordErrorMessage, testData.shortData.invalidPassword);
         });
 
-        it('impossible login with long password', () => {
+        it('impossible registration with long password', () => {
             modalRegistration.fillRegistrationForm(
                 testData.validData.name,
                 testData.validData.lastName,
@@ -123,13 +123,13 @@ describe('modal registration', () => {
     });
 
     describe('invalid confirm password', () => {
-         afterEach(() => {
+        afterEach(() => {
             modalRegistration.verifyBorderColor(modalRegistration.selectors.reEnterPasswordInput);
         });
 
-        it('impossible login with empty confirm password', () => {
+        it('impossible registration with empty confirm password', () => {
             modalRegistration.clickOnField(modalRegistration.selectors.reEnterPasswordInput);
-            
+
             modalRegistration.fillRegistrationForm(
                 testData.validData.name,
                 testData.validData.lastName,
@@ -137,11 +137,11 @@ describe('modal registration', () => {
                 testData.validData.password,
                 undefined
             );
-            
+
             modalRegistration.verifyErrorText(modalRegistration.selectors.reEnterPasswordErrorMessage, testData.emptyData.invalidConfirmPassword);
         });
 
-        it('impossible login with no match confirm password', () => {
+        it('impossible registration with no match confirm password', () => {
             modalRegistration.fillRegistrationForm(
                 testData.validData.name,
                 testData.validData.lastName,
@@ -156,8 +156,7 @@ describe('modal registration', () => {
 });
 
 
-
-describe.only('login flow', () => {
+describe.only('registration flow', () => {
     beforeEach(() => {
         cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')
         cy.get('.header_right').contains('button', 'Sign In').click();
@@ -167,19 +166,17 @@ describe.only('login flow', () => {
         })
     });
 
-
     it('if fields are empty, button Register is disabled', () => {
-        modalRegistration.sendRegistrationForm(
-            testData.emptyData.name,
-            testData.emptyData.lastName,
-            testData.emptyData.email,
-            testData.emptyData.password,
-            testData.emptyData.confirmPassword
-        );
+        modalRegistration.clickOnField(modalRegistration.selectors.nameInput);
+        modalRegistration.clickOnField(modalRegistration.selectors.lastNameInput);
+        modalRegistration.clickOnField(modalRegistration.selectors.emailInput);
+        modalRegistration.clickOnField(modalRegistration.selectors.passwordInput);
+        modalRegistration.clickOnField(modalRegistration.selectors.reEnterPasswordInput);
+
         modalRegistration.verifyButtonDisabled();
     });
 
-    it.skip('successfull login', () => {
+    it.skip('successfull registration', () => {
         let email = faker.internet.email();
         modalRegistration.sendRegistrationForm(
             testData.validData.name,

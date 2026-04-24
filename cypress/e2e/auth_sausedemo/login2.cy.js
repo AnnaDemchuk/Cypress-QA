@@ -8,7 +8,7 @@ describe('Login Tests', () => {
     beforeEach(() => {
         loginPage.visit();
         loginPage.verifyOpenloginpage();
-        cy.fixture('users').then((data) => {
+        cy.fixture('sausedemo/users2').then((data) => {
             testData = data;
         });
     });
