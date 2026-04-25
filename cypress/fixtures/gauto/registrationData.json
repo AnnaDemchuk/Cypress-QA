@@ -1,0 +1,61 @@
+{
+    "emptyData": {
+        "invalidName": "Name required",
+        "invalidLastName": "Last name required",
+        "invalidEmail": "Email required",
+        "invalidPassword": "Password required",
+        "invalidConfirmPassword": "Re-enter password required"
+    },
+
+    "shortData": {
+        "name": "A",
+        "lastName": "B",
+        "password": "Qt12345",
+        "confirmPassword": "Qt12345",
+        "invalidName": "Name has to be from 2 to 20 characters long",
+        "invalidLastName": "Last name has to be from 2 to 20 characters long",
+        "invalidEmail": "Email required",
+        "invalidPassword": "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter",
+        "invalidConfirmPassword": "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter"
+    },
+
+    
+    "longData": {
+        "name": "Aqwertyuiopasdfghjklz",
+        "lastName": "Bqwertyuiopasdfghjklz",
+        "password": "Qt12345678901234",
+        "confirmPassword": "Qt12345678901234",
+        "invalidName": "Name has to be from 2 to 20 characters long",
+        "invalidLastName": "Last name has to be from 2 to 20 characters long",
+        "invalidEmail": "Email required",
+        "invalidPassword": "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter",
+        "invalidConfirmPassword": "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter"
+    },
+
+    "wrongData": {
+        "name": "Алексей",
+        "lastName": "Иванов",
+        "email": "test.i.ua",
+        "password": "1234567",
+        "confirmPassword": "1234567",
+        "invalidName": "Name is invalid",
+        "invalidLastName": "Last name is invalid",
+        "invalidEmail": "Email is incorrect",
+        "invalidPassword": "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter",
+        "invalidConfirmPassword": "Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter"
+    },
+
+    "validData": {
+        "name": "Bob",
+        "lastName": "Smith",
+        "email": "test@i.ua",
+        "password": "Qt123456",
+        "confirmPassword": "Qt123456"
+    },
+
+    "passwordNotMatch": {
+        "password": "Qt123456",
+        "confirmPassword": "Qt12345678",
+        "invalidConfirmPassword": "Passwords do not match"
+    }
+}

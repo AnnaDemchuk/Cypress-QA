@@ -24,12 +24,11 @@ class ModalRegistration {
             cy.get(this.selectors.emailInput).type(email);
         }
         if (password) {
-            cy.get(this.selectors.passwordInput).type(password);
+            cy.get(this.selectors.passwordInput).type(password, { sensitive: true });
         }
         if (reEnterPassword) {
-            cy.get(this.selectors.reEnterPasswordInput).type(reEnterPassword);
+            cy.get(this.selectors.reEnterPasswordInput).type(reEnterPassword, { sensitive: true });
         }
-        console.log('password:', password);
     }
 
     clickOnField(selector) {

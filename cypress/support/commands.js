@@ -24,12 +24,37 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+import ModalLogin from "../pages/Gauto/modalLogin";
+
 
 //sausedemo.com login command
+Cypress.Commands.add('loginSauseDemo', (username, password) => {
 
-Cypress.Commands.add('login', (username, password) => {
-  
     cy.get('#user-name').type(username)
     cy.get('#password').type(password)
     cy.get('#login-button').click()
 });
+
+//qauto login command
+Cypress.Commands.add('loginGauto', (email, password) => {
+    const modalLogin = new ModalLogin();
+    modalLogin.sendLoginForm(email, password);
+    cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
+    
+});
+
+// Command to fill registration form in Gauto
+Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
+  if (options && options.sensitive) {
+    // turn off original log
+    options.log = false
+    // create our own log with masked message
+    Cypress.log({
+      $el: element,
+      name: 'type',
+      message: '*'.repeat(text.length),
+    })
+  }
+
+  return originalFn(element, text, options)
+})

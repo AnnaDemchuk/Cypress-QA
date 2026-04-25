@@ -1,7 +1,9 @@
-import ModalRegistration from '../../pages/Gauto/modal_registration';
+import ModalLogin from '../../pages/Gauto/modalLogin';
+import ModalRegistration from '../../pages/Gauto/modalRegistration';
 import { faker } from '@faker-js/faker';
 
 let testData;
+const modalLogin = new ModalLogin();
 const modalRegistration = new ModalRegistration();
 
 describe('modal registration', () => {
@@ -9,19 +11,19 @@ describe('modal registration', () => {
     beforeEach(() => {
         cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')
         cy.get('.header_right').contains('button', 'Sign In').click();
-        cy.get('.modal-content').contains('button', 'Registration').click();
-        cy.fixture('gauto/login').then((data) => {
+        modalLogin.clickRegistrationButton();
+        cy.fixture('gauto/registrationData').then((data) => {
             testData = data;
         })
     });
 
 
-    describe('invalid name', () => {
+    describe('invalid name on registration form', () => {
         afterEach(() => {
             modalRegistration.verifyBorderColor(modalRegistration.selectors.nameInput);
         });
 
-        it('impossible registration with empty name', () => {
+        it.only('impossible registration with empty name', () => {
             modalRegistration.clickOnField(modalRegistration.selectors.nameInput);
 
             modalRegistration.fillRegistrationForm(
@@ -68,7 +70,7 @@ describe('modal registration', () => {
         });
     });
 
-    describe('invalid password', () => {
+    describe('invalid password on registration form', () => {
         afterEach(() => {
             modalRegistration.verifyBorderColor(modalRegistration.selectors.passwordInput);
         });
@@ -122,7 +124,7 @@ describe('modal registration', () => {
         });
     });
 
-    describe('invalid confirm password', () => {
+    describe('invalid confirm password on registration form', () => {
         afterEach(() => {
             modalRegistration.verifyBorderColor(modalRegistration.selectors.reEnterPasswordInput);
         });
@@ -153,39 +155,36 @@ describe('modal registration', () => {
             modalRegistration.verifyErrorText(modalRegistration.selectors.reEnterPasswordErrorMessage, testData.passwordNotMatch.invalidConfirmPassword);
         });
     });
-});
 
+    describe('registration', () => {
 
-describe.only('registration flow', () => {
-    beforeEach(() => {
-        cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')
-        cy.get('.header_right').contains('button', 'Sign In').click();
-        cy.get('.modal-content').contains('button', 'Registration').click();
-        cy.fixture('gauto/login').then((data) => {
-            testData = data;
-        })
-    });
+        it('if fields are empty, button Register is disabled on registration form', () => {
+            modalRegistration.clickOnField(modalRegistration.selectors.nameInput);
+            modalRegistration.clickOnField(modalRegistration.selectors.lastNameInput);
+            modalRegistration.clickOnField(modalRegistration.selectors.emailInput);
+            modalRegistration.clickOnField(modalRegistration.selectors.passwordInput);
+            modalRegistration.clickOnField(modalRegistration.selectors.reEnterPasswordInput);
 
-    it('if fields are empty, button Register is disabled', () => {
-        modalRegistration.clickOnField(modalRegistration.selectors.nameInput);
-        modalRegistration.clickOnField(modalRegistration.selectors.lastNameInput);
-        modalRegistration.clickOnField(modalRegistration.selectors.emailInput);
-        modalRegistration.clickOnField(modalRegistration.selectors.passwordInput);
-        modalRegistration.clickOnField(modalRegistration.selectors.reEnterPasswordInput);
+            modalRegistration.verifyButtonDisabled();
+        });
 
-        modalRegistration.verifyButtonDisabled();
-    });
+        it.skip('successfull registration', () => {
+            let email = faker.internet.email();
+            let name = faker.person.firstName();
+            let lastName = faker.person.lastName();
 
-    it.skip('successfull registration', () => {
-        let email = faker.internet.email();
-        modalRegistration.sendRegistrationForm(
-            testData.validData.name,
-            testData.validData.lastName,
-            email,
-            testData.validData.password,
-            testData.validData.confirmPassword
-        );
-        console.log(email);
-        cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
+            modalRegistration.sendRegistrationForm(
+                name,
+                lastName,
+                email,
+                testData.validData.password,
+                testData.validData.confirmPassword
+            );
+            console.log(email);
+            cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
+        });
     });
 });
+
+
+

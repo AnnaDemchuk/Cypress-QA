@@ -13,8 +13,9 @@ describe('Login Tests', () => {
         });
     });
 
+    //test with custom command and fixture data (json file)
    it('should login with valid credentials1', () => {
-        cy.login(testData.standard_user.username, testData.standard_user.password);
+        cy.loginSauseDemo(testData.standard_user.username, testData.standard_user.password);
         cy.url().should('include', '/inventory.html');
     });
 
