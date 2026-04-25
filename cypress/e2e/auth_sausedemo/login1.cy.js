@@ -1,5 +1,5 @@
 import LoginPage from "../../pages/SauseDemo/LoginPage";
-import { users } from "../../fixtures/sausedemo/users";
+import { users } from "../../fixtures/sausedemo/users1";
 
 //test with POM and fixture data (ts file)
 describe('Login Tests', () => {
