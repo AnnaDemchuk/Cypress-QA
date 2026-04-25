@@ -1,3 +1,5 @@
+import GaragePage from '../../pages/Gauto/garagePage';
+import MainPage from '../../pages/Gauto/mainPage';
 import ModalLogin from '../../pages/Gauto/modalLogin';
 import ModalRegistration from '../../pages/Gauto/modalRegistration';
 import { faker } from '@faker-js/faker';
@@ -5,12 +7,15 @@ import { faker } from '@faker-js/faker';
 let testData;
 const modalLogin = new ModalLogin();
 const modalRegistration = new ModalRegistration();
+const mainPage = new MainPage();
+const garagePage = new GaragePage();
+
 
 describe('modal registration', () => {
 
     beforeEach(() => {
-        cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')
-        cy.get('.header_right').contains('button', 'Sign In').click();
+        cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')     
+        mainPage.clickSignInButton();
         modalLogin.clickRegistrationButton();
         cy.fixture('gauto/registrationData').then((data) => {
             testData = data;
@@ -181,7 +186,7 @@ describe('modal registration', () => {
                 testData.validData.confirmPassword
             );
             console.log(email);
-            cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
+            garagePage.verifyGaragePageUrl();
         });
     });
 });
