@@ -30,17 +30,17 @@ import ModalLogin from "../pages/Gauto/modalLogin";
 //sausedemo.com login command
 Cypress.Commands.add('loginSauseDemo', (username, password) => {
 
-    cy.get('#user-name').type(username)
-    cy.get('#password').type(password)
-    cy.get('#login-button').click()
+  cy.get('#user-name').type(username)
+  cy.get('#password').type(password)
+  cy.get('#login-button').click()
 });
 
 //qauto login command
 Cypress.Commands.add('loginGauto', (email, password) => {
-    const modalLogin = new ModalLogin();
-    modalLogin.sendLoginForm(email, password);
-    cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
-    
+  const modalLogin = new ModalLogin();
+  modalLogin.sendLoginForm(email, password);
+  cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
+
 });
 
 // Command to fill registration form in Gauto

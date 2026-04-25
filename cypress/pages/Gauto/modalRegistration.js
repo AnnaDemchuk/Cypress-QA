@@ -13,50 +13,83 @@ class ModalRegistration {
         reEnterPasswordErrorMessage: '[formcontrolname="repeatPassword"] ~ .invalid-feedback p',
     };
 
-    fillRegistrationForm(name, lastName, email, password, reEnterPassword) {
-        if (name) {
-            cy.get(this.selectors.nameInput).type(name);
-        }
-        if (lastName) {
-            cy.get(this.selectors.lastNameInput).type(lastName);
-        }
-        if (email) {
-            cy.get(this.selectors.emailInput).type(email);
-        }
-        if (password) {
-            cy.get(this.selectors.passwordInput).type(password, { sensitive: true });
-        }
-        if (reEnterPassword) {
-            cy.get(this.selectors.reEnterPasswordInput).type(reEnterPassword, { sensitive: true });
-        }
+
+    sendRegistrationForm(name, lastName, email, password, reEnterPassword) {
+        cy.get(this.selectors.nameInput).type(name);
+        cy.get(this.selectors.lastNameInput).type(lastName);
+        cy.get(this.selectors.emailInput).type(email);
+        cy.get(this.selectors.passwordInput)
+            .type(password, { sensitive: true });
+        cy.get(this.selectors.reEnterPasswordInput)
+            .type(reEnterPassword, { sensitive: true });
+
+        cy.get(this.selectors.registerButton).click();
+    }
+
+    fillPasswords(password, reEnterPassword) {
+        cy.get(this.selectors.passwordInput)
+            .type(password, { sensitive: true });
+
+        cy.get(this.selectors.reEnterPasswordInput)
+            .type(reEnterPassword, { sensitive: true });
+
+        this.clickOnField(this.selectors.emailInput);
     }
 
     clickOnField(selector) {
         cy.get(selector).click();
     }
 
-    sendRegistrationForm(name, lastName, email, password, reEnterPassword) {
-        this.fillRegistrationForm(name, lastName, email, password, reEnterPassword);
-        this.clickRegisterButton();
+    verifyBorderColor(selector, hasError) {
+  
+        if (hasError === true) {
+            cy.get(selector).should('have.class', 'is-invalid');
+        } else {
+            cy.get(selector).should('not.have.class', 'is-invalid');
+        }
     }
 
-    clickRegisterButton() {
-        cy.get(this.selectors.registerButton).click();
+    getErrorText(error_text_selector, hasError) {
+    
+        if (hasError === true) {
+            return cy.get(error_text_selector)
+                .should('be.visible')
+                .invoke('text')
+                .then(text => text.trim());
+        }
+        else {
+            return cy.get('.modal-body').then($body => {
+                const element = $body.find(error_text_selector);
+
+                return element.length ? element.text().trim() : null;
+            });
+        }
     }
 
-    verifyBorderColor(selector) {
-        cy.get(selector).should('have.class', 'is-invalid');
+    verifyErrorText(error_text_selector, expectedText, hasError) {
+        this.getErrorText(error_text_selector, hasError).should('eq', expectedText);
     }
 
-    getErrorText(selector) {
-        return cy
-            .get(selector)
-            .invoke('text')
-            .then(text => text.trim());
+    typeValue(input_selector, value) {
+        if (value !== undefined) {
+            cy.get(input_selector).clear().type(value);
+        }
+        else {
+            this.clickOnField(input_selector);
+            this.clickOnField(this.selectors.emailInput);
+        }
     }
 
-    verifyErrorText(selector, expectedText) {
-        this.getErrorText(selector).should('eq', expectedText);
+    validateInputText(
+        input_selector,
+        error_text_selector,
+        value,
+        expectedTextError,
+        hasError) {
+    
+        this.typeValue(input_selector, value);
+        this.verifyErrorText(error_text_selector, expectedTextError, hasError);
+        this.verifyBorderColor(input_selector, hasError);
     }
 
     verifyButtonDisabled() {
