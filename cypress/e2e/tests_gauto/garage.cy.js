@@ -19,7 +19,7 @@ const modalLogin = new ModalLogin();
 describe('successful login', () => {
 
     beforeEach(() => {
-       // cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')
+        // cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')
         cy.visit('/', {
             auth: {
                 username: 'guest',
@@ -29,18 +29,36 @@ describe('successful login', () => {
 
 
         mainPage.clickSignInButton();
-        cy.fixture('gauto/users').then((data) => {
-            return cy.then(() => {
-                modalLogin.sendLoginForm(
-                    data.existedUser.email,
-                    data.existedUser.password
-                );
-                garagePage.verifyPageUrl();
-            });
+
+        /* 
+          cy.fixture('gauto/users').then((data) => {
+              return cy.then(() => {
+                  modalLogin.sendLoginForm(
+                      data.existedUser.email,
+                      data.existedUser.password
+                  );
+                  garagePage.verifyPageUrl();
+              });
+          });
+  */
+        
+               const user = Cypress.env('user');
+
+modalLogin.sendLoginForm(user.email, user.password);
+garagePage.verifyPageUrl();
+       
+/*
+        let user;
+        cy.env('user').then((u) => {
+            user = u;
+            modalLogin.sendLoginForm(user.email, user.password);
+            garagePage.verifyPageUrl();
         });
+*/
+
     });
 
-    it.skip('Add a new car', () => {
+    it.only('Add a new car', () => {
 
         const brand = carData.carBMW.brand;
         const model = carData.carBMW.model;

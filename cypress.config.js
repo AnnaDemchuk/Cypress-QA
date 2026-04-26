@@ -2,28 +2,17 @@ const { defineConfig } = require('cypress');
 
 const environments = {
   test: {
-    baseUrl: 'https://www.qauto2.forstudy.space'
-   /*
-    auth: {
-      username: 'guest',
-      password: 'welcome2qauto'
-    }
-      */
+    baseUrl: 'https://qauto2.forstudy.space',
+    user: require('./cypress.env.test.json').user
   },
   prod: {
-    baseUrl: 'https://qauto.forstudy.space'
-   /*
-    auth: {
-      username: 'guest',
-      password: 'welcome2qauto'
-    }
-      */
+    baseUrl: 'https://qauto.forstudy.space',
+    user: require('./cypress.env.prod.json').user
   },
 };
 
-
 module.exports = defineConfig({
-   allowCypressEnv: false,
+  allowCypressEnv: false,
 
   e2e: {
     setupNodeEvents(on, config) {
@@ -35,8 +24,12 @@ module.exports = defineConfig({
         throw new Error(`Environment "${envName}" not found`);
       }
 
-     // config.env.auth = selectedEnv.auth;
-      config.baseUrl = selectedEnv.baseUrl;
+      // baseUrl per environment
+      //config.baseUrl = selectedEnv.baseUrl;
+            config.baseUrl = environments[envName].baseUrl;
+      // user credentials per environment
+      config.env.user = environments[envName].user;
+
 
       return config;
     },
