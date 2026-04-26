@@ -16,6 +16,6 @@ describe('successful login', () => {
 
     it('successful login in Gauto by existed user', () => {
         cy.loginGauto(testData.existedUser.email, testData.existedUser.password);
-        garagePage.verifyGaragePageUrl();
+        garagePage.verifyPageUrl();
     });
 });
