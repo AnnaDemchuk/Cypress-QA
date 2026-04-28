@@ -37,7 +37,7 @@ class ModalRegistration {
     }
 
     clickOnField(selector) {
-        cy.get(selector).click();
+        cy.get(selector).debug().click();
     }
 
     verifyBorderColor(selector, hasError) {
