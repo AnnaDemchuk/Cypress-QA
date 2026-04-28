@@ -21,6 +21,7 @@ class GaragePage extends BasePage {
     }
 
     verifyCarAdded(brand, model, mileage) {
+
         const carName = `${brand} ${model}`;
         cy.get(this.selectors.carName).should('contain.text', carName);
         cy.get(this.selectors.carMileage)
@@ -39,7 +40,7 @@ class GaragePage extends BasePage {
     }
 
     clickRemoveCarButton() {
-        cy.get(this.selectors.removeCarButton).first().click();
+        cy.get(this.selectors.removeCarButton).first().click(); 
     }
 
     clickConfirmRemoveButton() {
@@ -47,15 +48,26 @@ class GaragePage extends BasePage {
     }
 
     removeAllCars() {
-        cy.get('body').then($body => {
-            if ($body.find(this.selectors.editCarButton).length > 0) {
-                const count = Cypress.$(this.selectors.editCarButton).length;
-                if (count > 0) {
-                    this.clickEditCarButton()
-                    this.clickRemoveCarButton();
-                    this.clickConfirmRemoveButton();
-                }
+
+        cy.get(this.selectors.editCarButton).then(($buttons) => {
+            const count = $buttons.length;
+
+            if (count === 0) {
+                cy.log('No cars to remove');
+                return;
             }
+
+            cy.wrap([...Array(count)]).each(() => {
+        
+                cy.get(this.selectors.editCarButton)
+                    .first()
+                    .click();
+
+                this.clickRemoveCarButton();
+                this.clickConfirmRemoveButton();
+
+                cy.wait(300);
+            });
         });
     }
 };

@@ -3,11 +3,13 @@ const { defineConfig } = require('cypress');
 const environments = {
   test: {
     baseUrl: 'https://qauto2.forstudy.space',
-    user: require('./cypress.env.test.json').user
+    password: 'Qw123456',
+    email: 'Dan123@test.com'
   },
   prod: {
     baseUrl: 'https://qauto.forstudy.space',
-    user: require('./cypress.env.prod.json').user
+    password: 'Qt123456',
+    email: 'Lucia_Douglas79@yahoo.com'
   },
 };
 
@@ -26,10 +28,9 @@ module.exports = defineConfig({
 
       // baseUrl per environment
       //config.baseUrl = selectedEnv.baseUrl;
-            config.baseUrl = environments[envName].baseUrl;
-      // user credentials per environment
-      config.env.user = environments[envName].user;
-
+      config.baseUrl = selectedEnv.baseUrl;
+      config.password = selectedEnv.password;
+      config.email = selectedEnv.email;
 
       return config;
     },

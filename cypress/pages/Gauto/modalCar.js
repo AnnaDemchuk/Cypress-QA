@@ -20,6 +20,7 @@ class ModalCar {
     }
 
     sendAddCarForm(brand, model, mileage) {
+
         this.selectBrand(brand);
         this.selectModel(model);
         cy.get(this.selectors.mileageInput).type(mileage);

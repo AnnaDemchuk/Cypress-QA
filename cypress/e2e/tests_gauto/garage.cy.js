@@ -4,7 +4,6 @@ import ModalExpense from "../../pages/Gauto/modalExperse";
 import FuelExpensesPage from "../../pages/Gauto/fuelExpensesPage";
 import MainPage from "../../pages/Gauto/mainPage";
 import GaragePage from "../../pages/Gauto/garagePage";
-import Basepage from "../../pages/Gauto/BasePage";
 import ModalLogin from "../../pages/Gauto/modalLogin";
 
 let testData;
@@ -13,13 +12,11 @@ const garagePage = new GaragePage();
 const modalCar = new ModalCar();
 const fuelExpensesPage = new FuelExpensesPage();
 const modalExpense = new ModalExpense();
-const basePage = new Basepage();
 const modalLogin = new ModalLogin();
 
 describe('successful login', () => {
 
     beforeEach(() => {
-        // cy.visit('https://guest:welcome2qauto@qauto.forstudy.space/')
         cy.visit('/', {
             auth: {
                 username: 'guest',
@@ -27,55 +24,32 @@ describe('successful login', () => {
             }
         });
 
-
         mainPage.clickSignInButton();
 
-        /* 
-          cy.fixture('gauto/users').then((data) => {
-              return cy.then(() => {
-                  modalLogin.sendLoginForm(
-                      data.existedUser.email,
-                      data.existedUser.password
-                  );
-                  garagePage.verifyPageUrl();
-              });
-          });
-  */
-        
-               const user = Cypress.env('user');
-
-modalLogin.sendLoginForm(user.email, user.password);
-garagePage.verifyPageUrl();
+        const email = Cypress.config('email');
+        const password = Cypress.config('password');
        
-/*
-        let user;
-        cy.env('user').then((u) => {
-            user = u;
-            modalLogin.sendLoginForm(user.email, user.password);
-            garagePage.verifyPageUrl();
-        });
-*/
-
+        modalLogin.sendLoginForm(email, password);
+        garagePage.verifyPageUrl();
     });
 
-    it.only('Add a new car', () => {
+    afterEach(() => {
+        garagePage.removeAllCars();
+    });
 
+    it('Add a new car', () => {
+  
         const brand = carData.carBMW.brand;
         const model = carData.carBMW.model;
         const mileage = carData.carBMW.mileage;
 
         garagePage.clickAddCarButton();
         modalCar.sendAddCarForm(brand, model, mileage);
-        garagePage.verifyCarAdded(brand, model, mileage);
-
-        garagePage.clickEditCarButton();
-        garagePage.removeAllCars();
+        garagePage.verifyCarAdded(brand, model, mileage);     
     });
 
 
     it('Add fuel expense', () => {
-
-        garagePage.removeAllCars();
 
         const brand = carData.carBMW.brand;
         const model = carData.carBMW.model;
@@ -96,7 +70,5 @@ garagePage.verifyPageUrl();
         fuelExpensesPage.deleteFirstFuelExpense();
 
         garagePage.openGaragePage();
-        garagePage.removeAllCars();
-
     });
 });
