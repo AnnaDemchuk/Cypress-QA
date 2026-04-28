@@ -3,7 +3,6 @@ import ModalLogin from "../../pages/Gauto/modalLogin";
 import MainPage from "../../pages/Gauto/mainPage";
 import GaragePage from "../../pages/Gauto/garagePage";
 import { regiData } from "../../fixtures/gauto/regiData";
-import { faker } from '@faker-js/faker';
 
 const modalLogin = new ModalLogin();
 const modalRegistration = new ModalRegistration();
@@ -157,10 +156,19 @@ describe('Verify Registration flow ', () => {
         garagePage.verifyGaragePageUrl();
     });
 
-    it('if fields are empty, button Register is disabled on registration form', () => {
+    it.only('if fields are empty, button Register is disabled on registration form', () => {
+        cy.log('====Check that the Register button is disabled when all fields are empty==');
         modalRegistration.clickOnField(modalRegistration.selectors.nameInput);
+       
+       // debugger;
+       //cy.pause();
+
+       //visual check of the test execution in the Cypress Test Runner
+       cy.screenshot('after-clicking-name-input');
         modalRegistration.clickOnField(modalRegistration.selectors.lastNameInput);
         modalRegistration.clickOnField(modalRegistration.selectors.emailInput);
+
+      
         modalRegistration.clickOnField(modalRegistration.selectors.passwordInput);
         modalRegistration.clickOnField(modalRegistration.selectors.reEnterPasswordInput);
 

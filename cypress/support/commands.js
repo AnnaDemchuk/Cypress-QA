@@ -58,3 +58,45 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
 
   return originalFn(element, text, options)
 })
+
+Cypress.Commands.add('loginByApi', () => {
+    // const randomEmail = `user_${Date.now()}@test.com`;
+    cy.request({
+        method: 'POST',
+        url: 'https://qauto.forstudy.space/api/auth/signup',
+        body: {
+            name: "John",
+            lastName: "Dou",
+            //email: "Qwerty1234567randomEmail@test.com",
+             email: randomEmail,
+            password: "Qwerty12345",
+            repeatPassword: "Qwerty12345"
+        },
+    }).then((response) => {
+        expect(response.status).to.eq(201);
+        expect(response.body.status).to.eq('ok');
+    });
+});
+
+Cypress.Commands.add('signupAndSaveSession', () => {
+    const email = `user_${Date.now()}@test.com`;
+    const password = 'Qwerty12345';
+
+    // Use cy.session to cache the session after signing up
+    cy.session('qauto-user-session', () => {
+        cy.request({
+            method: 'POST',
+            url: 'https://qauto.forstudy.space/api/auth/signup',
+            body: {
+                name: 'John',
+                lastName: 'Dou',
+                email,
+                password,
+                repeatPassword: password,
+            },
+        }).then((response) => {
+            expect(response.status).to.eq(201);
+            expect(response.body.status).to.eq('ok');
+        });
+    });
+});
