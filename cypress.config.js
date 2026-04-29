@@ -1,15 +1,17 @@
 const { defineConfig } = require('cypress');
+require('dotenv').config();
 
 const environments = {
   test: {
-    baseUrl: 'https://qauto2.forstudy.space',
-    password: 'Qw123456',
-    email: 'Dan123@test.com'
+    baseUrl: process.env.TEST_BASE_URL,
+    email: process.env.TEST_EMAIL,
+    password: process.env.TEST_PASSWORD,
+
   },
   prod: {
-    baseUrl: 'https://qauto.forstudy.space',
-    password: 'Qt123456',
-    email: 'Lucia_Douglas79@yahoo.com'
+    baseUrl: process.env.PROD_BASE_URL,
+    email: process.env.PROD_EMAIL,
+    password: process.env.PROD_PASSWORD,
   },
 };
 
