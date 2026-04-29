@@ -2,7 +2,7 @@ class GaragePage {
 
  url = 'https://qauto.forstudy.space/panel/garage';
 
-    verifyGaragePageUrl() {
+    verifyPageUrl() {
         cy.url().should('include', this.url);
     }
 }

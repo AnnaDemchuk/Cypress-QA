@@ -153,7 +153,7 @@ describe('Verify Registration flow ', () => {
             regiData.password.valid_8_sign
         );
     
-        garagePage.verifyGaragePageUrl();
+        garagePage.verifyPageUrl();
     });
 
     it.only('if fields are empty, button Register is disabled on registration form', () => {

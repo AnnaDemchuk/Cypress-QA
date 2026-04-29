@@ -1,4 +1,5 @@
-import ModalLogin from "../../pages/Gauto/modalLogin";
+import MainPage from "../../pages/Gauto/mainPage";
+import GaragePage from "../../pages/Gauto/garagePage";
 
 let testData;
 const mainPage = new MainPage();
@@ -16,6 +17,6 @@ describe('successful login', () => {
 
     it('successful login in Gauto by existed user', () => {
         cy.loginGauto(testData.existedUser.email, testData.existedUser.password);
-        garagePage.verifyGaragePageUrl();
+        garagePage.verifyPageUrl();
     });
 });
