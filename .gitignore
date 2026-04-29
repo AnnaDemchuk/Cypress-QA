@@ -2,3 +2,8 @@
 .env
 .vs
 /html-report
+/screenshots
+/videos
+report.html
+report.json
+/cypress/reports
