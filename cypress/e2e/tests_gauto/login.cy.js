@@ -1,4 +1,5 @@
-import ModalLogin from "../../pages/Gauto/modalLogin";
+import MainPage from "../../pages/Gauto/mainPage";
+import GaragePage from "../../pages/Gauto/garagePage";
 
 let testData;
 const mainPage = new MainPage();

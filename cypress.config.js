@@ -14,10 +14,25 @@ const environments = {
 };
 
 module.exports = defineConfig({
+
+  reporter: 'cypress-mochawesome-reporter',
+  reporterOptions: {
+    reportDir: 'cypress/reports',
+    charts: true,
+    reportPageTitle: 'Test Report',
+    embeddedScreenshots: true,
+    inlineAssets: true,
+    saveAllAttempts: false,
+    overwrite: true,
+    html: true,
+    json: true
+  },
+
   allowCypressEnv: false,
 
   e2e: {
     setupNodeEvents(on, config) {
+      require('cypress-mochawesome-reporter/plugin')(on);
       const envName = config.env.environment || "test";
 
       const selectedEnv = environments[envName];
@@ -26,8 +41,6 @@ module.exports = defineConfig({
         throw new Error(`Environment "${envName}" not found`);
       }
 
-      // baseUrl per environment
-      //config.baseUrl = selectedEnv.baseUrl;
       config.baseUrl = selectedEnv.baseUrl;
       config.password = selectedEnv.password;
       config.email = selectedEnv.email;
