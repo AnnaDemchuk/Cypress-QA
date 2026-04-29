@@ -11,56 +11,40 @@ class FuelExpensesPage extends BasePage {
         cy.url().should('include', '/panel/expenses');
     }
 
-    openGaragePage() {
-        super.openGaragePage()
-    }
-
-    openFuelExpensePage() {
-        super.openFuelExpensePage()
-    }
-
     getColumsInFirstRow() {
         return cy.get(this.selectors.tableBody).find('tr').eq(0).find('td');
     }
 
-    getMileageFromFirstRow() {
+    getDataFromFirstRow(field) {
+        const columnMap = {
+            mileage: 1,
+            liters: 2,
+            totalPrice: 3,
+        };
+
+        const index = columnMap[field];
+
+        if (index === undefined) {
+            throw new Error(`Invalid field: ${field}`);
+        }
+
         return this.getColumsInFirstRow()
-            .eq(1)
+            .eq(index)
             .invoke('text')
             .then((text) => {
-                const numeric = text.replace(/[^\d.]/g, ''); // оставить цифры и точку
-                return Math.floor(parseFloat(numeric));
+                const numeric = text.replace(/[^\d.]/g, '');
+                return Math.floor(parseFloat(numeric)); //потом добавить сравнение дробных
             });
     }
 
-    getLitersFromFirstRow() {
-        return this.getColumsInFirstRow().eq(2).invoke('text').then((text) => {
-            const numeric = text.replace(/[^\d.]/g, ''); // оставить цифры и точку
-            return Math.floor(parseFloat(numeric));
-        });
-    }
-
-    getTotalPriceFromFirstRow() {
-        return this.getColumsInFirstRow().eq(3).invoke('text').then((text) => {
-            const numeric = text.replace(/[^\d.]/g, ''); // оставить цифры и точку
-            return Math.floor(parseFloat(numeric));
-        });
-    }
 
     verifyAddedExpense(mileage, liters, totalPrice) {
-        cy.log('---verifyAddedExpense---');
-        console.log('getMileageFromFirstRow()', this.getMileageFromFirstRow());
-        console.log('getLitersFromFirstRow()', this.getLitersFromFirstRow());
-        console.log('getTotalPriceFromFirstRow()', this.getTotalPriceFromFirstRow());
-
-        this.getMileageFromFirstRow().should('equal', Number(mileage));
-        this.getLitersFromFirstRow().should('equal', Number(liters));
-        this.getTotalPriceFromFirstRow().should('equal', Number(totalPrice));
+        this.getDataFromFirstRow('mileage').should('equal', Number(mileage));
+        this.getDataFromFirstRow('liters').should('equal', Number(liters));
+        this.getDataFromFirstRow('totalPrice').should('equal', Number(totalPrice));
     }
 
     deleteFirstFuelExpense() {
-        cy.log('---deleteFirstFuelExpense---');
-
         this.getColumsInFirstRow().eq(4).find(this.selectors.deleteExpenseButton).click({ force: true });
         cy.get(this.selectors.confirmDeleteButton).click();
     }
@@ -69,9 +53,7 @@ class FuelExpensesPage extends BasePage {
         cy.get(this.selectors.tableBody).find('tr').should('have.length', 0);
     }
 
-
     reloadPage() {
-        cy.log('---reloadPage---');
         cy.reload();
     }
 }

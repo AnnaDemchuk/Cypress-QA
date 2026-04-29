@@ -6,7 +6,6 @@ import MainPage from "../../pages/Gauto/mainPage";
 import GaragePage from "../../pages/Gauto/garagePage";
 import ModalLogin from "../../pages/Gauto/modalLogin";
 
-let testData;
 const mainPage = new MainPage();
 const garagePage = new GaragePage();
 const modalCar = new ModalCar();
@@ -28,7 +27,7 @@ describe('successful login', () => {
 
         const email = Cypress.config('email');
         const password = Cypress.config('password');
-       
+
         modalLogin.sendLoginForm(email, password);
         garagePage.verifyPageUrl();
     });
@@ -38,35 +37,27 @@ describe('successful login', () => {
     });
 
     it('Add a new car', () => {
-  
-        const brand = carData.carBMW.brand;
-        const model = carData.carBMW.model;
-        const mileage = carData.carBMW.mileage;
+
+        const car = carData.carBMW;
 
         garagePage.clickAddCarButton();
-        modalCar.sendAddCarForm(brand, model, mileage);
-        garagePage.verifyCarAdded(brand, model, mileage);     
+        modalCar.sendAddCarForm(car.brand, car.model, car.mileage);
+        garagePage.verifyCarAdded(car.brand, car.model, car.mileage);
     });
-
 
     it('Add fuel expense', () => {
 
-        const brand = carData.carBMW.brand;
-        const model = carData.carBMW.model;
-        const mileage = carData.carBMW.mileage;
-        const liters = carData.carBMW.liters;
-        const totalCost = carData.carBMW.totalCost;
-        const newMileade = carData.carBMW.new_mileage;
+        const car = carData.carBMW;
 
         garagePage.clickAddCarButton();
-        modalCar.sendAddCarForm(brand, model, mileage);
+        modalCar.sendAddCarForm(car.brand, car.model, car.mileage);
 
         garagePage.clickAddFuelExpenseButton();
-        modalExpense.sendAddExpenseForm(newMileade, liters, totalCost);
+        modalExpense.sendAddExpenseForm(car.new_mileage, car.liters, car.totalCost);
 
         fuelExpensesPage.openFuelExpensePage();
         fuelExpensesPage.reloadPage();
-        fuelExpensesPage.verifyAddedExpense(newMileade, liters, totalCost);
+        fuelExpensesPage.verifyAddedExpense(car.new_mileage, car.liters, car.totalCost);
         fuelExpensesPage.deleteFirstFuelExpense();
 
         garagePage.openGaragePage();

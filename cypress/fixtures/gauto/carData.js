@@ -8,4 +8,3 @@ export const carData = {
         totalCost: '80000'
     },
 }
- 

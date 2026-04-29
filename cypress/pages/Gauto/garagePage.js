@@ -32,7 +32,7 @@ class GaragePage extends BasePage {
     }
 
     clickAddFuelExpenseButton() {
-        cy.get(this.selectors.addFuelExpenseButton).click();
+        cy.get(this.selectors.addFuelExpenseButton).first().click();
     }
 
     clickEditCarButton() {
@@ -40,7 +40,7 @@ class GaragePage extends BasePage {
     }
 
     clickRemoveCarButton() {
-        cy.get(this.selectors.removeCarButton).first().click(); 
+        cy.get(this.selectors.removeCarButton).first().click();
     }
 
     clickConfirmRemoveButton() {
@@ -48,26 +48,20 @@ class GaragePage extends BasePage {
     }
 
     removeAllCars() {
+        cy.get('body').then(($body) => {
+            const buttons = $body.find(this.selectors.editCarButton);
 
-        cy.get(this.selectors.editCarButton).then(($buttons) => {
-            const count = $buttons.length;
-
-            if (count === 0) {
-                cy.log('No cars to remove');
+            if (buttons.length === 0) {
                 return;
             }
 
-            cy.wrap([...Array(count)]).each(() => {
-        
-                cy.get(this.selectors.editCarButton)
-                    .first()
-                    .click();
+            cy.get(this.selectors.editCarButton).first().click();
+            this.clickRemoveCarButton();
+            this.clickConfirmRemoveButton();
 
-                this.clickRemoveCarButton();
-                this.clickConfirmRemoveButton();
+            cy.get(this.selectors.editCarButton).should('have.length.lessThan', buttons.length);
 
-                cy.wait(300);
-            });
+            this.removeAllCars();
         });
     }
 };

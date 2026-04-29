@@ -2,7 +2,7 @@
 .env
 .vs
 /html-report
-/screenshots
+**/screenshots/
 /videos
 report.html
 report.json
