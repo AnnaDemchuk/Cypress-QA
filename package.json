@@ -11,10 +11,12 @@
   "license": "ISC",
   "devDependencies": {
     "@faker-js/faker": "^10.4.0",
-    "cypress": "^15.13.1"
+    "cypress": "^15.13.1",
+    "cypress-mochawesome-reporter": "^4.0.2"
   },
   "dependencies": {
     "@percy/cli-snapshot": "^1.31.12",
-    "@percy/cypress": "^3.1.8"
+    "@percy/cypress": "^3.1.8",
+    "dotenv": "^17.4.2"
   }
 }
