@@ -1,4 +1,4 @@
-import { getAuthCookieHeader } from '../helper/authCookie';
+import { getAuthCookieHeader } from '../helper/authCookieRegi';
 
 describe('Cars API', () => {
     let authCookie;
