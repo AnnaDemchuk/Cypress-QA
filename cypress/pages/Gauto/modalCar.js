@@ -5,8 +5,6 @@ class ModalCar {
         mileageInput: '#addCarMileage',
         addCarButton: '.modal-footer button:contains("Add")',
         removeCarButton: '.modal-footer button:contains("Remove car")',
-        brandDropdownOption: '#addCarBrand option',
-        modelDropdownOption: '#addCarModel option',
         confirmRemoveButton: 'app-remove-car-modal button:contains("Remove")'
     }
 
@@ -20,10 +18,9 @@ class ModalCar {
     }
 
     sendAddCarForm(brand, model, mileage) {
-
         this.selectBrand(brand);
         this.selectModel(model);
-        cy.get(this.selectors.mileageInput).type(mileage);
+        cy.get(this.selectors.mileageInput).type(String(mileage));
         cy.get(this.selectors.addCarButton).click();
     }
 
@@ -31,7 +28,6 @@ class ModalCar {
         this.clickRemoveCarButton();
         this.clickConfirmRemoveButton();
     }
-
 
     clickRemoveCarButton() {
         cy.get(this.selectors.removeCarButton).click();
