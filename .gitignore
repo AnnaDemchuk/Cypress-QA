@@ -7,3 +7,4 @@
 report.html
 report.json
 /cypress/reports
+cypress/fixtures/gauto/createdCar.json
