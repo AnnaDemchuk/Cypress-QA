@@ -30,45 +30,44 @@ import ModalLogin from "../pages/Gauto/modalLogin";
 //sausedemo.com login command
 Cypress.Commands.add('loginSauseDemo', (username, password) => {
 
-  cy.get('#user-name').type(username)
-  cy.get('#password').type(password)
-  cy.get('#login-button').click()
+    cy.get('#user-name').type(username)
+    cy.get('#password').type(password)
+    cy.get('#login-button').click()
 });
 
 //qauto login command
 Cypress.Commands.add('loginGauto', (email, password) => {
-  const modalLogin = new ModalLogin();
-  modalLogin.sendLoginForm(email, password);
-  cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
+    const modalLogin = new ModalLogin();
+    modalLogin.sendLoginForm(email, password);
+    cy.url().should('include', 'https://qauto.forstudy.space/panel/garage');
 
 });
 
 // Command to fill registration form in Gauto
 Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
-  if (options && options.sensitive) {
-    // turn off original log
-    options.log = false
-    // create our own log with masked message
-    Cypress.log({
-      $el: element,
-      name: 'type',
-      message: '*'.repeat(text.length),
-    })
-  }
+    if (options && options.sensitive) {
+        // turn off original log
+        options.log = false
+        // create our own log with masked message
+        Cypress.log({
+            $el: element,
+            name: 'type',
+            message: '*'.repeat(text.length),
+        })
+    }
 
-  return originalFn(element, text, options)
+    return originalFn(element, text, options)
 })
 
 Cypress.Commands.add('loginByApi', () => {
-    // const randomEmail = `user_${Date.now()}@test.com`;
+    const randomEmail = `user_${Date.now()}@test.com`;
     cy.request({
         method: 'POST',
         url: 'https://qauto.forstudy.space/api/auth/signup',
         body: {
             name: "John",
             lastName: "Dou",
-            //email: "Qwerty1234567randomEmail@test.com",
-             email: randomEmail,
+            email: randomEmail,
             password: "Qwerty12345",
             repeatPassword: "Qwerty12345"
         },

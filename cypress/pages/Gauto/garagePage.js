@@ -1,4 +1,5 @@
 import BasePage from './BasePage';
+import ModalCar from './modalCar';
 
 class GaragePage extends BasePage {
 
@@ -8,8 +9,6 @@ class GaragePage extends BasePage {
         carMileage: 'input[formcontrolname="miles"]',
         addFuelExpenseButton: 'button:contains("Add fuel expense")',
         editCarButton: '.car_edit.btn.btn-edit',
-        removeCarButton: '.modal-footer button:contains("Remove car")',
-        confirmRemoveButton: 'app-remove-car-modal button:contains("Remove")'
     }
 
     verifyPageUrl() {
@@ -39,15 +38,9 @@ class GaragePage extends BasePage {
         cy.get(this.selectors.editCarButton).first().click();
     }
 
-    clickRemoveCarButton() {
-        cy.get(this.selectors.removeCarButton).first().click();
-    }
-
-    clickConfirmRemoveButton() {
-        cy.get(this.selectors.confirmRemoveButton).click();
-    }
-
     removeAllCars() {
+        const modalCar = new ModalCar();
+
         cy.get('body').then(($body) => {
             const buttons = $body.find(this.selectors.editCarButton);
 
@@ -56,8 +49,7 @@ class GaragePage extends BasePage {
             }
 
             cy.get(this.selectors.editCarButton).first().click();
-            this.clickRemoveCarButton();
-            this.clickConfirmRemoveButton();
+            modalCar.removeCar();
 
             cy.get(this.selectors.editCarButton).should('have.length.lessThan', buttons.length);
 

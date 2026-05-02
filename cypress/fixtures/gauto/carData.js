@@ -6,5 +6,5 @@ export const carData = {
         new_mileage: '4001',
         liters: '20',
         totalCost: '80000'
-    },
+    }
 }
