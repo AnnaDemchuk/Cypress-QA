@@ -7,7 +7,6 @@ export function getAuthCookieHeader() {
         body: {
             name: "John",
             lastName: "Dou",
-            // email: "Qwerty12345randomEmail@test.com",
             email: randomEmail,
             password: "Qwerty12345",
             repeatPassword: "Qwerty12345"

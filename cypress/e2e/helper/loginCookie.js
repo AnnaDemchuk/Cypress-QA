@@ -19,6 +19,4 @@ export function getLoginCookieHeader() {
 
         return sidCookie.split(';')[0];
     });
-
-
 }
