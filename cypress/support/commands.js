@@ -26,7 +26,6 @@
 
 import ModalLogin from "../pages/Gauto/modalLogin";
 
-
 //sausedemo.com login command
 Cypress.Commands.add('loginSauseDemo', (username, password) => {
 
@@ -99,3 +98,82 @@ Cypress.Commands.add('signupAndSaveSession', () => {
         });
     });
 });
+
+Cypress.Commands.add('postExpenses', (carData, authCookie) => {
+    return cy.fixture('gauto/createdCar').then(({ id: carId }) =>
+        cy.request({
+            method: 'POST',
+            url: 'https://qauto.forstudy.space/api/expenses',
+            headers: { Cookie: authCookie },
+            body: {
+                carId,
+                reportedAt: new Date().toISOString().slice(0, 10),
+                mileage: Number(carData.new_mileage),
+                liters: Number(carData.liters),
+                totalCost: Number(carData.totalCost),
+                forceMileage: true,
+            },
+        }),
+    );
+});
+
+Cypress.Commands.add('getAllCarsByApi', (authCookie) =>
+    cy.request({
+        method: 'GET',
+        url: 'https://qauto.forstudy.space/api/cars',
+        headers: { Cookie: authCookie },
+    }).then(({ body }) => body.data),
+);
+
+Cypress.Commands.add('deleteAllCarsByApi', (authCookie) =>
+    cy.getAllCarsByApi(authCookie).then((cars) => {
+        cars.forEach((car) => {
+            cy.request({
+                method: 'DELETE',
+                url: `https://qauto.forstudy.space/api/cars/${car.id}`,
+                headers: { Cookie: authCookie },
+            });
+        });
+    }),
+);
+
+Cypress.Commands.add('deleteAllExpensesByApi', (authCookie) =>
+    cy.getAllCarsByApi(authCookie).then((cars) => {
+        if (cars.length === 0) return;
+
+        cars.forEach((car) => {
+            cy.request({
+                method: 'GET',
+                url: `https://qauto.forstudy.space/api/expenses?carId=${car.id}`,
+                headers: { Cookie: authCookie },
+            }).then(({ body: expensesBody }) => {
+                expensesBody.data.forEach((expense) => {
+                    cy.request({
+                        method: 'DELETE',
+                        url: `https://qauto.forstudy.space/api/expenses/${expense.id}`,
+                        headers: { Cookie: authCookie },
+                    });
+                });
+            });
+        });
+    }),
+);
+
+Cypress.Commands.add('verifyNoExpensesByApiForCar', (carId, authCookie) =>
+    cy.request({
+        method: 'GET',
+        url: `https://qauto.forstudy.space/api/expenses?carId=${carId}`,
+        headers: { Cookie: authCookie },
+    }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body.data).to.be.an('array').that.is.empty;
+    }),
+);
+
+Cypress.Commands.add('verifyNoExpensesByApiForAllCars', (authCookie) =>
+    cy.getAllCarsByApi(authCookie).then((cars) => {
+        cars.forEach((car) => {
+            cy.verifyNoExpensesByApiForCar(car.id, authCookie);
+        });
+    }),
+);
